@@ -1,0 +1,431 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\fnil\fcharset0 AppleColorEmoji;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue233;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c93333;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf2 \expnd0\expndtw0\kerning0
+\ul \ulc2 \outl0\strokewidth0 \strokec2 \
+<!DOCTYPE html>\
+<html lang="en">\
+<head>\
+<meta charset="UTF-8">\
+<meta name="viewport" content="width=device-width, initial-scale=1.0">\
+<title>EasyEnglish - Smart Translator</title>\
+\
+<style>\
+* \{\
+  box-sizing: border-box;\
+\}\
+\
+body \{\
+  margin: 0;\
+  font-family: Arial, sans-serif;\
+  background: #f1f5ff;\
+  color: #172554;\
+\}\
+\
+header \{\
+  background: linear-gradient(120deg, #3730a3, #6366f1);\
+  color: white;\
+  text-align: center;\
+  padding: 35px 15px;\
+\}\
+\
+header h1 \{\
+  margin: 0 0 10px;\
+  font-size: 34px;\
+\}\
+\
+header p \{\
+  margin: 0;\
+\}\
+\
+.container \{\
+  max-width: 850px;\
+  margin: 30px auto;\
+  padding: 20px;\
+\}\
+\
+.card \{\
+  background: white;\
+  padding: 25px;\
+  border-radius: 16px;\
+  box-shadow: 0 5px 20px #00000010;\
+\}\
+\
+label \{\
+  display: block;\
+  font-weight: bold;\
+  margin: 15px 0 8px;\
+\}\
+\
+select, textarea \{\
+  width: 100%;\
+  padding: 13px;\
+  border: 1px solid #cbd5e1;\
+  border-radius: 9px;\
+  font-size: 16px;\
+\}\
+\
+textarea \{\
+  min-height: 130px;\
+  resize: vertical;\
+\}\
+\
+.buttons \{\
+  display: flex;\
+  flex-wrap: wrap;\
+  gap: 10px;\
+  margin-top: 18px;\
+\}\
+\
+button \{\
+  border: none;\
+  border-radius: 9px;\
+  padding: 13px 18px;\
+  background: #4f46e5;\
+  color: white;\
+  font-size: 15px;\
+  cursor: pointer;\
+\}\
+\
+button:hover \{\
+  background: #3730a3;\
+\}\
+\
+.secondary \{\
+  background: #0f766e;\
+\}\
+\
+.secondary:hover \{\
+  background: #115e59;\
+\}\
+\
+#output \{\
+  background: #eef2ff;\
+  min-height: 110px;\
+  padding: 17px;\
+  margin-top: 12px;\
+  border-radius: 10px;\
+  white-space: pre-wrap;\
+  overflow-wrap: anywhere;\
+\}\
+\
+#status \{\
+  margin-top: 12px;\
+  color: #475569;\
+  font-size: 14px;\
+\}\
+\
+footer \{\
+  text-align: center;\
+  padding: 25px;\
+  color: #64748b;\
+\}\
+</style>\
+</head>\
+\
+<body>\
+\
+<header>\
+  <h1>
+\f1 \uc0\u55356 \u57101 
+\f0  EasyEnglish</h1>\
+  <p>Understand every language. Communicate with confidence.</p>\
+</header>\
+\
+<div class="container">\
+<div class="card">\
+\
+  <h2>Language Translator</h2>\
+  <p>Translate your language into easy English.</p>\
+\
+  <label for="language">Choose your language:</label>\
+\
+  <select id="language">\
+    <option value="ta">Tamil</option>\
+    <option value="hi">Hindi</option>\
+    <option value="te">Telugu</option>\
+    <option value="ml">Malayalam</option>\
+    <option value="kn">Kannada</option>\
+    <option value="bn">Bengali</option>\
+    <option value="fr">French</option>\
+    <option value="es">Spanish</option>\
+    <option value="de">German</option>\
+    <option value="ja">Japanese</option>\
+    <option value="zh">Chinese</option>\
+    <option value="ar">Arabic</option>\
+  </select>\
+\
+  <label for="inputText">Enter your sentence:</label>\
+\
+  <textarea id="inputText"\
+    placeholder="Type your sentence here..."></textarea>\
+\
+  <div class="buttons">\
+    <button onclick="translateText()">Translate to English</button>\
+    <button class="secondary" onclick="startVoice()">
+\f1 \uc0\u55356 \u57252 
+\f0  Speak</button>\
+  </div>\
+\
+  <hr style="margin:25px 0; border:0; border-top:1px solid #e2e8f0">\
+\
+  <h2>Easy English Converter</h2>\
+\
+  <label for="accent">Choose English variety:</label>\
+\
+  <select id="accent">\
+    <option value="international">Simple International English</option>\
+    <option value="american">American English</option>\
+    <option value="british">British English</option>\
+    <option value="indian">Indian English</option>\
+    <option value="australian">Australian English</option>\
+  </select>\
+\
+  <label>Converted result:</label>\
+\
+  <div id="output">\
+    Your translated or simplified sentence will appear here.\
+  </div>\
+\
+  <div class="buttons">\
+    <button onclick="simplifyText()">Make Easy English</button>\
+    <button class="secondary" onclick="speakResult()">
+\f1 \uc0\u55357 \u56586 
+\f0  Listen</button>\
+    <button onclick="copyResult()">Copy Result</button>\
+  </div>\
+\
+  <p id="status" aria-live="polite"></p>\
+\
+</div>\
+</div>\
+\
+<footer>\
+  EasyEnglish \'a9 2026 | Breaking Language Barriers\
+</footer>\
+\
+<script>\
+\
+// Translate text into English using MyMemory API\
+\
+async function translateText() \{\
+  const text = document.getElementById("inputText").value.trim();\
+  const language = document.getElementById("language").value;\
+  const status = document.getElementById("status");\
+\
+  if (!text) \{\
+    status.textContent = "Please enter some text first.";\
+    return;\
+  \}\
+\
+  if (text.length > 450) \{\
+    status.textContent = "Please keep the text under 450 characters.";\
+    return;\
+  \}\
+\
+  status.textContent = "Translating...";\
+\
+  try \{\
+    const url =\
+      "https://api.mymemory.translated.net/get?q=" +\
+      encodeURIComponent(text) +\
+      "&langpair=" + language + "|en";\
+\
+    const response = await fetch(url);\
+    if (!response.ok) throw new Error("Translation service unavailable");\
+\
+    const data = await response.json();\
+\
+    if (data.responseStatus !== 200) \{\
+      throw new Error(data.responseDetails || "Translation failed.");\
+    \}\
+\
+    document.getElementById("output").textContent =\
+      data.responseData.translatedText;\
+\
+    status.textContent = "Translation completed!";\
+  \} catch (error) \{\
+    status.textContent =\
+      "Sorry, translation failed. Please try again later.";\
+  \}\
+\}\
+\
+\
+// Convert common difficult words into easier words\
+\
+function simplifyText() \{\
+  let text = document.getElementById("inputText").value.trim();\
+  const status = document.getElementById("status");\
+\
+  if (!text) \{\
+    status.textContent = "Please enter a sentence first.";\
+    return;\
+  \}\
+\
+  const replacements = \{\
+    "commence": "start",\
+    "terminate": "end",\
+    "purchase": "buy",\
+    "assist": "help",\
+    "utilize": "use",\
+    "approximately": "about",\
+    "require": "need",\
+    "demonstrate": "show",\
+    "inquire": "ask",\
+    "numerous": "many",\
+    "difficult": "hard",\
+    "additional": "extra",\
+    "sufficient": "enough",\
+    "endeavour": "try",\
+    "endeavor": "try",\
+    "obtain": "get",\
+    "residence": "home",\
+    "inform": "tell",\
+    "depart": "leave",\
+    "comprehend": "understand"\
+  \};\
+\
+  for (const [word, simple] of Object.entries(replacements)) \{\
+    const pattern = new RegExp("\\\\b" + word + "\\\\b", "gi");\
+    text = text.replace(pattern, simple);\
+  \}\
+\
+  const accent = document.getElementById("accent").value;\
+\
+  const vocabulary = \{\
+    american: \{\
+      "flat": "apartment",\
+      "lift": "elevator",\
+      "petrol": "gas",\
+      "holiday": "vacation",\
+      "lorry": "truck",\
+      "boot": "trunk"\
+    \},\
+    british: \{\
+      "apartment": "flat",\
+      "elevator": "lift",\
+      "gasoline": "petrol",\
+      "vacation": "holiday",\
+      "truck": "lorry",\
+      "trunk": "boot"\
+    \},\
+    australian: \{\
+      "apartment": "flat",\
+      "elevator": "lift",\
+      "gasoline": "petrol",\
+      "vacation": "holiday"\
+    \},\
+    indian: \{\},\
+    international: \{\}\
+  \};\
+\
+  const words = vocabulary[accent] || \{\};\
+\
+  for (const [word, replacement] of Object.entries(words)) \{\
+    const pattern = new RegExp("\\\\b" + word + "\\\\b", "gi");\
+    text = text.replace(pattern, replacement);\
+  \}\
+\
+  document.getElementById("output").textContent = text;\
+  status.textContent =\
+    "Easy English conversion completed using a basic vocabulary guide.";\
+\}\
+\
+\
+// Voice input using browser speech recognition\
+\
+function startVoice() \{\
+  const SpeechRecognition =\
+    window.SpeechRecognition || window.webkitSpeechRecognition;\
+\
+  const status = document.getElementById("status");\
+\
+  if (!SpeechRecognition) \{\
+    status.textContent =\
+      "Voice recognition is not supported in this browser.";\
+    return;\
+  \}\
+\
+  const recognition = new SpeechRecognition();\
+\
+  const language = document.getElementById("language").value;\
+\
+  const speechLanguages = \{\
+    ta: "ta-IN",\
+    hi: "hi-IN",\
+    te: "te-IN",\
+    ml: "ml-IN",\
+    kn: "kn-IN",\
+    bn: "bn-IN",\
+    fr: "fr-FR",\
+    es: "es-ES",\
+    de: "de-DE",\
+    ja: "ja-JP",\
+    zh: "zh-CN",\
+    ar: "ar-SA"\
+  \};\
+\
+  recognition.lang = speechLanguages[language] || "en-US";\
+  recognition.interimResults = false;\
+\
+  status.textContent = "Listening...";\
+\
+  recognition.onresult = function(event) \{\
+    document.getElementById("inputText").value =\
+      event.results[0][0].transcript;\
+    status.textContent = "Speech converted into text.";\
+  \};\
+\
+  recognition.onerror = function() \{\
+    status.textContent = "Voice recognition failed. Please try again.";\
+  \};\
+\
+  recognition.start();\
+\}\
+\
+\
+// Read the result aloud\
+\
+function speakResult() \{\
+  const text = document.getElementById("output").textContent;\
+\
+  if (!text || text.startsWith("Your translated")) \{\
+    document.getElementById("status").textContent =\
+      "There is no result to read.";\
+    return;\
+  \}\
+\
+  const speech = new SpeechSynthesisUtterance(text);\
+  speech.lang = "en-US";\
+  speech.rate = 0.9;\
+\
+  window.speechSynthesis.speak(speech);\
+\}\
+\
+\
+// Copy translated text\
+\
+function copyResult() \{\
+  const text = document.getElementById("output").textContent;\
+\
+  navigator.clipboard.writeText(text)\
+    .then(() => \{\
+      document.getElementById("status").textContent =\
+        "Result copied!";\
+    \})\
+    .catch(() => \{\
+      document.getElementById("status").textContent =\
+        "Could not copy. Please select the text manually.";\
+    \});\
+\}\
+\
+</script>\
+\
+</body>\
+</html>\
+}
